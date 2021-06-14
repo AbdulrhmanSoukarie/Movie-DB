@@ -34,3 +34,16 @@ app.route("/Hello/:id")
 .post((req , res) => { 
     console.log("hello world" )
 })
+
+app.route("/search")
+.get((req ,res )=> {
+    const {s}= req.query
+    if (s !== ""){
+        res.send({status:200, message:"ok", data:s})
+
+    }
+    else {
+       
+        res.status(500).send({status:500, error:true, message:"you have to provide a search"});
+    }
+});

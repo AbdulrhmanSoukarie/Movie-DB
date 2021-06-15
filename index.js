@@ -2,7 +2,12 @@ const express = require('express');
 
 const app = express();
 
-
+const movies = [
+    { title: 'Jaws', year: 1975, rating: 8 },
+    { title: 'Avatar', year: 2009, rating: 7.8 },
+    { title: 'Brazil', year: 1985, rating: 8 },
+    { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
+];
 app.get('/',function(req, res){
     res.send('Ok');
 })
@@ -33,6 +38,25 @@ app.route("/Hello/:id")
 })
 .post((req , res) => { 
     console.log("hello world" )
+})
+
+app.route('/movies/create')
+.get((req , res)=> {
+    res.send();
+});
+app.route('/movies/read')
+.get((req ,res)=>{
+    res.send({status:200, data: movies});
+});
+app.route('/movies/update')
+.get((req , res)=>{
+    res.send();
+}
+);
+
+app.route ('/movies/delete')
+.get((req , res)=>{
+   res.send();
 })
 
 app.route("/search")

@@ -15,6 +15,7 @@ const sortedTitle = movies.sort((a, b) => {
     var textB = b.title.toLowerCase();
     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 });
+
 app.get('/',function(req, res){
     res.send('Ok');
 })
@@ -68,6 +69,17 @@ app.route('/movies/read/by-rating')
 app.route('/movies/read/by-title')
 .get((req ,res)=>{
     res.send({status:200, data: sortedTitle});
+});
+app.route('/movies/read/id/:id')
+.get((req ,res)=>{
+   if (req.params['id'] >= 0 && req.params['id'] < movies.length){
+    res.send({status:200, data: movies[req.params['id']]})};
+
+     {
+       res.status(404).send({status:404, error:true, message:'the movie <ID> does not exist'});
+    }
+        
+    
 });
 
 app.route('/movies/update')

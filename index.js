@@ -8,6 +8,13 @@ const movies = [
     { title: 'Brazil', year: 1985, rating: 8 },
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ];
+const sortedActivities = movies.slice().sort((a, b) => b.year - a.year);
+const sortedRate  = movies.slice().sort((a, b) => b.rating - a.rating);
+const sortedTitle = movies.sort((a, b) => {
+    var textA = a.title.toLowerCase();
+    var textB = b.title.toLowerCase();
+    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+});
 app.get('/',function(req, res){
     res.send('Ok');
 })
@@ -48,6 +55,21 @@ app.route('/movies/read')
 .get((req ,res)=>{
     res.send({status:200, data: movies});
 });
+
+app.route('/movies/read/by-date')
+.get((req ,res)=>{
+    res.send({status:200, data: sortedActivities});
+});
+
+app.route('/movies/read/by-rating')
+.get((req ,res)=>{
+    res.send({status:200, data: sortedRate});
+});
+app.route('/movies/read/by-title')
+.get((req ,res)=>{
+    res.send({status:200, data: sortedTitle});
+});
+
 app.route('/movies/update')
 .get((req , res)=>{
     res.send();

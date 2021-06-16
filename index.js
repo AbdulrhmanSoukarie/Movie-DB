@@ -105,3 +105,22 @@ app.route("/search")
         res.status(500).send({status:500, error:true, message:"you have to provide a search"});
     }
 });
+app.route("/add")
+.get((req ,res )=> {
+    
+    const title = req.query.title;
+    const year = req.query.year;
+    const rating = req.query.rating;
+    if(title !== "" && parseInt(year) !== "" && isNaN(year) == false &&
+    year.match(/^\d{4}$/))
+     {
+    if (rating == ""){
+        movies.push({ title: title, year: year, rating: 4} )
+    }
+      else{  movies.push({ title: title, year: year, rating: rating} );}
+
+        res.send({status:200 , data:movies})}
+     
+    else{
+        res.send({   status:403, error:true, message:'you cannot create a movie without providing a title and a year'})}
+});

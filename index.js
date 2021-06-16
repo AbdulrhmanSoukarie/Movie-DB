@@ -20,6 +20,7 @@ app.get('/',function(req, res){
     res.send('Ok');
 })
 .post((req, res) => {});
+
 app.listen(3000,function(){
     console.log('server started on port 3000...')
 });
@@ -88,8 +89,16 @@ app.route('/movies/update')
 }
 );
 
-app.route ('/movies/delete')
+app.route ('/movies/delete/id/:id')
 .get((req , res)=>{
+    if (req.params['id'] >= 0 && req.params['id'] < movies.length){
+
+        movies.splice(req.params['id'] , 1)
+        res.send({status:200, data: movies})}
+    
+        {
+           res.status(404).send({status:404, error:true, message:'the movie <ID> does not exist'})
+        }
    res.send();
 })
 

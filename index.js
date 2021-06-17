@@ -8,6 +8,7 @@ const movies = [
     { title: 'Brazil', year: 1985, rating: 8 },
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ];
+
 const sortedActivities = movies.slice().sort((a, b) => b.year - a.year);
 const sortedRate  = movies.slice().sort((a, b) => b.rating - a.rating);
 const sortedTitle = movies.sort((a, b) => {
@@ -15,6 +16,7 @@ const sortedTitle = movies.sort((a, b) => {
     var textB = b.title.toLowerCase();
     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 });
+
 
 app.get('/',function(req, res){
     res.send('Ok');
@@ -73,27 +75,58 @@ app.route('/movies/read/by-title')
 });
 app.route('/movies/read/id/:id')
 .get((req ,res)=>{
-   if (req.params['id'] >= 0 && req.params['id'] < movies.length){
-    res.send({status:200, data: movies[req.params['id']]})};
-
+    const idx = (req.params['id'] - 1)
+  
+   if (idx >= 0 && idx < movies.length){
+  
+    res.send({status:200, data: movies[idx]})};
+   
      {
        res.status(404).send({status:404, error:true, message:'the movie <ID> does not exist'});
+      
     }
         
     
 });
 
-app.route('/movies/update')
+app.route('/movies/update/:id')
 .get((req , res)=>{
-    res.send();
+
+    const idx = req.params['id'] -1;
+   
+    const title = req.query.title;
+    const year = req.query.year;
+    const rating = req.query.rating;
+    if(idx >= 0 && idx < movies.length){
+    if (title && title != ""){movies[idx].title = title}
+    if (year  && parseInt(year) !== "" && isNaN(year) == false &&
+    year.match(/^\d{4}$/)) {movies[idx].year = year}
+    else{
+        res.send({message : "invalid year"})
+    }
+
+    if(rating && rating != " "){movies[idx].rating = rating}
+     
+    res.send({
+        status:200,
+        data: movies[idx]
+        
+    })}
+
+    else {
+                 res.send({message : "invalid Id"})
+    }
+    
 }
 );
 
 app.route ('/movies/delete/id/:id')
-.get((req , res)=>{
-    if (req.params['id'] >= 0 && req.params['id'] < movies.length){
 
-        movies.splice(req.params['id'] , 1)
+.get((req , res)=>{
+    const idx = req.params['id'] - 1 ;
+    if (idx > 0 && idx< movies.length){
+
+        movies.splice(idx, 1)
         res.send({status:200, data: movies})}
     
         {

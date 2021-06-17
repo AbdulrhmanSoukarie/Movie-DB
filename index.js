@@ -73,8 +73,8 @@ app.route('/movies/read/by-title')
 });
 app.route('/movies/read/id/:id')
 .get((req ,res)=>{
-   if (req.params['id'] >= 0 && req.params['id'] < movies.length){
-    res.send({status:200, data: movies[req.params['id']]})};
+   if (req.params['id' - 1] > 0 && req.params['id' - 1] < movies.length){
+    res.send({status:200, data: movies[req.params['id' - 1 ]]})};
 
      {
        res.status(404).send({status:404, error:true, message:'the movie <ID> does not exist'});
@@ -83,9 +83,14 @@ app.route('/movies/read/id/:id')
     
 });
 
-app.route('/movies/update')
+app.route('/movies/update/:id')
 .get((req , res)=>{
-    res.send();
+
+    if (req.query.title && req.query.title !="" ){movies[req.params['id']].title = req.query.title }
+    if (req.query.year  && req.query.year!="" && isNaN(req.query.year) == true ){movies[req.params['id']].year = req.query.year }
+    if (req.query.rating && req.query.rating !="" ){movies[req.params['id']].rating = req.query.rating }
+
+    res.send({data:movies[req.params['id']]});
 }
 );
 

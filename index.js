@@ -98,9 +98,12 @@ app.route('/movies/update/:id')
     const year = req.query.year;
     const rating = req.query.rating;
     if(idx >= 0 && idx < movies.length){
-    if (title && title != ""){movies[idx].title = title}
+
+    if (title && title != ""){movies[idx].title = title
+    }
     if (year  && parseInt(year) !== "" && isNaN(year) == false &&
     year.match(/^\d{4}$/)) {movies[idx].year = year}
+    
     else{
         res.send({message : "invalid year"})
     }
